@@ -1,52 +1,70 @@
+import {Component} from 'react'
+
 import './index.css'
 
-const Feedback = props => {
-  const {resources, f1} = props
-  const {emojis} = resources
-  const fu = e => {
-    console.log(e.target)
-    f1()
+class Feedback extends Component {
+  state = {
+    isFeedbackSelected: false,
   }
-  return (
-    <div className="super">
-      <div className="sub">
-        <h1 className="heading">
-          How satisfied are you with our customer support performance ?
+
+  onClickEmoji = () => this.setState({isFeedbackSelected: true})
+
+  renderFeedbackQuestion = () => {
+    const {resources} = this.props
+    const {emojis} = resources
+
+    return (
+      <div className="feedback-question-container">
+        <h1 className="feedback-question">
+          How satisfied are you with our customer support performance?
         </h1>
-        <ul className="sub1">
-          {emojis.map(r => (
-            <li className="sub2">
-              <img
-                src={r.imageUrl}
-                key={r.id}
-                alt={r.name}
-                className="imagee"
-                onClick={fu}
-              />
-              <p>{r.name}</p>
+        <ul className="emojis-list">
+          {emojis.map(emoji => (
+            <li key={emoji.id}>
+              <button
+                type="button"
+                className="emoji-btn"
+                onClick={this.onClickEmoji}
+              >
+                <img src={emoji.imageUrl} alt={emoji.name} className="emoji" />
+                <br />
+                <span className="emoji-name">{emoji.name}</span>
+              </button>
             </li>
           ))}
         </ul>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
-export const Opinion = props => {
-  const {rs} = props
-  const {loveEmojiUrl} = rs
+  renderThankYouScreen = () => {
+    const {resources} = this.props
+    const {loveEmojiUrl} = resources
 
-  return (
-    <div className="super">
-      <div className="sub">
-        <img src={loveEmojiUrl} alt="love emoji" className="image1" />
-        <h1 className="heading">Thank You!</h1>
-        <p className="para">
-          We Will use your feedback to improve our customer support performance
+    return (
+      <div className="thank-you-container">
+        <img src={loveEmojiUrl} alt="love emoji" className="love-emoji" />
+        <h1 className="thank-you-text">Thank You!</h1>
+        <p className="description">
+          We will use your feedback to improve our customer support performance.
         </p>
       </div>
-    </div>
-  )
+    )
+  }
+
+  render() {
+    const {isFeedbackSelected} = this.state
+
+    return (
+      <div className="app-container">
+        <div className="feedback-card">
+          {isFeedbackSelected
+            ? this.renderThankYouScreen()
+            : this.renderFeedbackQuestion()}
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Feedback
