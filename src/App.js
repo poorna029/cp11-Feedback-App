@@ -25,27 +25,6 @@ const resources = {
   loveEmojiUrl: 'https://assets.ccbp.in/frontend/react-js/love-emoji-img.png',
 }
 
-class App extends Component {
-  state = {s: false}
-
-  fe = () => {
-    this.setState(p => ({s: !p.s}))
-  }
-
-  render() {
-    const {s} = this.state
-    console.log(s)
-
-    return (
-      <>
-        {s === false ? (
-          <Feedback resources={resources} f1={this.fe} />
-        ) : (
-          <Opinion rs={resources} />
-        )}
-      </>
-    )
-  }
-}
+const App = () => <Feedback resources={resources} />
 
 export default App
